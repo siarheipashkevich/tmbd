@@ -2,15 +2,18 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { MovieService } from '@/services/movie-service';
+import Storage from '@/utils/storage';
 import { Movie } from '@/types';
 import { selectMoviesFilter } from './selectors';
 import {
+  addFavoriteAction,
   fetchMovieAction,
   fetchMovieFailureAction,
   fetchMoviesAction,
   fetchMoviesFailureAction,
   fetchMoviesSuccessAction,
   fetchMovieSuccessAction,
+  removeFavoriteAction,
 } from './global-slice';
 
 function* fetchMovies() {
@@ -39,7 +42,23 @@ function* fetchMovie({ payload: movieId }: PayloadAction<Movie['id']>) {
   }
 }
 
+function addFavorite({ payload: movie }: PayloadAction<Movie>) {
+  const favorites = MovieService.getFavorites();
+
+  if (!MovieService.isMovieFavorite(favorites, movie.id)) {
+    Storage.set('favorites', [...favorites, movie]);
+  }
+}
+
+function removeFavorite({ payload: movieId }: PayloadAction<Movie['id']>) {
+  const favorites = MovieService.getFavorites();
+
+  Storage.set('favorites', favorites.filter((favorite) => favorite.id !== movieId));
+}
+
 export default function* saga() {
   yield takeLatest(fetchMoviesAction.type, fetchMovies);
   yield takeLatest(fetchMovieAction.type, fetchMovie);
+  yield takeLatest(addFavoriteAction.type, addFavorite);
+  yield takeLatest(removeFavoriteAction.type, removeFavorite);
 }

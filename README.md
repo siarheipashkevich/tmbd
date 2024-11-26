@@ -18,3 +18,4 @@
 5) Add validation schemas (zod or any alternative)
 6) Use cache mechanism where it's needed (for example movie's details is not changed often)
 7) Handle back press (for different TV apps use own keycodes per each platform)
+8) Use redux-persist if needed to sync data with localStorage

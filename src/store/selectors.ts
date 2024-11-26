@@ -4,6 +4,8 @@ import { RootState } from '.';
 
 const global = (state: RootState) => state.global;
 
+export const selectFavorites = createSelector(global, (state) => state.favorites);
+
 export const selectMovies = createSelector(global, (state) => state.movies.items);
 export const selectMoviesLoading = createSelector(global, (state) => state.movies.loading);
 export const selectMoviesError = createSelector(global, (state) => state.movies.error);

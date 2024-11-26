@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { MovieService } from '@/services/movie-service';
 import { Filter, Movie } from '@/types';
 
 interface GlobalSlice {
+  favorites: Movie[];
   movies: {
     loading: boolean;
     items: Movie[];
@@ -17,6 +19,7 @@ interface GlobalSlice {
 }
 
 const initialState: GlobalSlice = {
+  favorites: MovieService.getFavorites(),
   movies: {
     loading: false,
     items: [],
@@ -61,6 +64,13 @@ export const globalSlice = createSlice({
       state.movie.loading = false;
       state.movie.error = payload;
     },
+
+    addFavoriteAction(state, { payload }: PayloadAction<Movie>) {
+      state.favorites.push(payload);
+    },
+    removeFavoriteAction(state, { payload: movieId }: PayloadAction<Movie['id']>) {
+      state.favorites = state.favorites.filter((favoriteMovie) => favoriteMovie.id !== movieId);
+    },
   },
 });
 
@@ -72,6 +82,8 @@ export const {
   fetchMovieAction,
   fetchMovieSuccessAction,
   fetchMovieFailureAction,
+  addFavoriteAction,
+  removeFavoriteAction,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

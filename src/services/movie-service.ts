@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import Storage from '@/utils/storage';
 import { Filter, Movie } from '@/types';
 
 export class MovieService {
@@ -13,7 +14,19 @@ export class MovieService {
       return MovieService.fetchPopularMovies();
     }
 
-    return MovieService.fetchNowPlayingMovies();
+    if (filter === 'now') {
+      return MovieService.fetchNowPlayingMovies();
+    }
+
+    return MovieService.getFavorites();
+  }
+
+  public static getFavorites(): Movie[] {
+    return Storage.get('favorites', [])
+  }
+
+  public static isMovieFavorite(favorites: Movie[], movieId: Movie['id']) {
+    return favorites.some((favorite) => favorite.id === movieId);
   }
 
   private static async fetchPopularMovies(): Promise<Movie[]> {

@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { selectMovie, selectMovieError, selectMovieLoading } from '@/store/selectors';
+import { selectFavorites, selectMovie, selectMovieError, selectMovieLoading } from '@/store/selectors';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchMovieAction } from '@/store/global-slice';
+import { MovieService } from '@/services/movie-service';
 import Page from '@/components/page';
 import Loader from '@/components/loader';
 import Error from '@/components/error';
@@ -17,6 +18,7 @@ export function MoviePage() {
   const loading = useAppSelector(selectMovieLoading);
   const error = useAppSelector(selectMovieError);
   const movie = useAppSelector(selectMovie);
+  const favorites = useAppSelector(selectFavorites);
 
   useEffect(() => {
     if (id) {
@@ -29,7 +31,9 @@ export function MoviePage() {
       <BackBtn />
       <Error error={error} />
       {loading ? <Loader /> : (
-        movie ? <MovieInfo movie={movie} /> : 'Movie is not found...'
+        movie
+          ? <MovieInfo movie={movie} isFavorite={MovieService.isMovieFavorite(favorites, movie.id)} />
+          : 'Movie is not found...'
       )}
     </Page>
   );
