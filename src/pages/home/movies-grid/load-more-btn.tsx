@@ -2,7 +2,7 @@ import { memo, useContext } from 'react';
 import { useFocusable } from '@noriginmedia/norigin-spatial-navigation';
 
 import { ScrollerContext } from '@/components/scroller/scroller-context';
-import { cn } from '@/utils';
+import { Button } from '@/components/button';
 
 function LoadMoreBtn() {
   const { onItemFocus } = useContext(ScrollerContext);
@@ -17,18 +17,18 @@ function LoadMoreBtn() {
   });
 
   return (
-    <div
+    <Button
       ref={ref}
-      className={cn('my-4 py-2 px-4 rounded text-center cursor-pointer bg-slate-200', {
-        'bg-sky-400 text-white': focused,
-      })}
+      className="my-4 w-full"
+      variant={focused ? 'focused' : 'default'}
+      size="lg"
       onClick={() => {
         focusSelf();
         handleClick();
       }}
     >
       Load more
-    </div>
+    </Button>
   );
 }
 

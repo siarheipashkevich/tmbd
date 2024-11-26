@@ -4,8 +4,8 @@ import { useFocusable } from '@noriginmedia/norigin-spatial-navigation';
 import { useAppDispatch } from '@/store/hooks';
 import { addFavoriteAction, removeFavoriteAction } from '@/store/global-slice';
 import FavoriteLabel from '@/components/favorite-label';
+import { Button } from '@/components/button';
 import { ImageService } from '@/services/image-service';
-import { cn } from '@/utils';
 import { Movie } from '@/types';
 
 interface MovieInfoProps {
@@ -52,17 +52,16 @@ function MovieInfo({ movie, isFavorite }: MovieInfoProps) {
           </div>
         )}
         <div className="pt-3 text-slate-500">{movie.overview}</div>
-        <div
+        <Button
           ref={ref}
-          className={cn('my-4 py-2 px-4 inline-block cursor-pointer rounded bg-slate-200', {
-            'bg-sky-400 text-white': focused,
-          })}
+          className="my-4"
+          variant={focused ? 'focused' : 'default'}
           onClick={() => {
             focusSelf();
             handleToggleFavorite();
           }}>
           {isFavorite ? 'Remove From Favorites' : 'Add To Favorite'}
-        </div>
+        </Button>
       </div>
     </div>
   );

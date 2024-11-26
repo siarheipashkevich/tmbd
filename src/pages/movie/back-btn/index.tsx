@@ -2,7 +2,7 @@ import { memo, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFocusable } from '@noriginmedia/norigin-spatial-navigation';
 
-import { cn } from '@/utils';
+import { Button } from '@/components/button';
 
 function BackBtn() {
   const navigate = useNavigate();
@@ -25,17 +25,16 @@ function BackBtn() {
   }, [focusSelf]);
 
   return (
-    <div
+    <Button
       ref={ref}
-      className={cn('my-4 py-2 px-4 inline-block cursor-pointer rounded bg-slate-200', {
-        'bg-sky-400 text-white': focused,
-      })}
+      className="my-4"
+      variant={focused ? 'focused' : 'default'}
       onClick={() => {
         focusSelf();
         handleGoBack();
       }}>
       Go Back
-    </div>
+    </Button>
   );
 }
 
