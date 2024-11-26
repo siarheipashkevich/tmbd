@@ -8,6 +8,7 @@ import { MovieService } from '@/services/movie-service';
 import Page from '@/components/page';
 import Loader from '@/components/loader';
 import Error from '@/components/error';
+import EmptyPlaceholder from '@/components/empty-placeholder';
 import { Movie } from '@/types';
 import BackBtn from './back-btn';
 import MovieInfo from './movie-info';
@@ -33,7 +34,7 @@ export function MoviePage() {
       {loading ? <Loader /> : (
         movie
           ? <MovieInfo movie={movie} isFavorite={MovieService.isMovieFavorite(favorites, movie.id)} />
-          : 'Movie is not found...'
+          : <EmptyPlaceholder text="Movie is not found." />
       )}
     </Page>
   );

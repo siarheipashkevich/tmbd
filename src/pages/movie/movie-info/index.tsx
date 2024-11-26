@@ -41,7 +41,7 @@ function MovieInfo({ movie, isFavorite }: MovieInfoProps) {
         </div>
       )}
       <div className="pl-4">
-        <div className="font-bold text-xl">{movie?.title}</div>
+        <div className="font-bold text-xl">{movie.title}</div>
         {movie.genres.length > 0 && (
           <div className="flex flex-row gap-x-2 pt-3">
             {movie.genres.map(({ id, name }) => (

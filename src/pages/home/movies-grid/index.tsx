@@ -2,6 +2,7 @@ import { memo } from 'react';
 
 import { useAppSelector } from '@/store/hooks';
 import { selectFavorites } from '@/store/selectors';
+import EmptyPlaceholder from '@/components/empty-placeholder';
 import { MovieService } from '@/services/movie-service';
 import { Movie } from '@/types';
 import MovieCard from './movie-card';
@@ -16,7 +17,7 @@ export function MoviesGrid({ movies }: MoviesGridProps) {
 
   if (movies.length === 0) {
     return (
-      <div className="text-center p-2 text-gray-400">The list of movies is empty.</div>
+      <EmptyPlaceholder text="The list of movies is empty." />
     );
   }
 
